@@ -1,29 +1,33 @@
 use dioxus::prelude::*;
+use nom_nom::theme::{theme_to_string, toggle_theme_state};
+#[cfg(target_arch = "wasm32")]
+use nom_nom::theme::is_theme_light;
 
 #[component]
 pub fn ThemeToggle() -> Element {
     let mut is_light = use_signal(|| false);
 
     // Initialize theme from localStorage on mount
+    #[cfg(target_arch = "wasm32")]
     use_effect(move || {
         spawn(async move {
             if let Some(window) = web_sys::window() {
                 if let Ok(Some(storage)) = window.local_storage() {
-                    if let Ok(Some(theme)) = storage.get_item("theme") {
-                        is_light.set(theme == "light");
-                    }
+                    let stored = storage.get_item("theme").ok().flatten();
+                    is_light.set(is_theme_light(stored.as_deref()));
                 }
             }
         });
     });
 
     let toggle_theme = move |_| {
-        let new_is_light = !is_light();
+        let new_is_light = toggle_theme_state(is_light());
         is_light.set(new_is_light);
         
-        let theme = if new_is_light { "light" } else { "dark" };
+        let theme = theme_to_string(new_is_light);
         
-        // Update DOM and localStorage
+        // Update DOM and localStorage (only on wasm32)
+        #[cfg(target_arch = "wasm32")]
         if let Some(window) = web_sys::window() {
             if let Some(document) = window.document() {
                 if let Some(html) = document.document_element() {
@@ -34,6 +38,10 @@ pub fn ThemeToggle() -> Element {
                 let _ = storage.set_item("theme", theme);
             }
         }
+        
+        // Suppress unused variable warning on non-wasm targets
+        #[cfg(not(target_arch = "wasm32"))]
+        let _ = theme;
     };
 
     rsx! {

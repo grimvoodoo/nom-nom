@@ -3,6 +3,8 @@ use dioxus::prelude::*;
 mod components;
 mod pages;
 
+use pages::{Home, Recipes, Larder};
+
 fn main() {
     dioxus::launch(App);
 }
