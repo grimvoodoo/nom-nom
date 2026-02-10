@@ -4,7 +4,9 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Project Overview
 
-nom-nom is a Rust project using the 2024 edition.
+nom-nom is a web-based cookbook platform built with Rust (2024 edition). Users can manage recipes, track their ingredient inventory ("larder"), and filter recipes by what they have on hand. The project includes an AI microservice for extracting ingredients from uploaded photos.
+
+See [GOALS.md](GOALS.md) for the roadmap and [README.md](README.md) for an overview.
 
 ## Build Commands
 
