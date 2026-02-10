@@ -1,1 +1,15 @@
 /target
+
+# Generated CSS
+/assets/css/output.css
+
+# Node
+node_modules/
+
+# Dioxus
+/dist/
+
+# Environment (secrets)
+.env
+.env.local
+.env.*.local

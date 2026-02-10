@@ -1,0 +1,17 @@
+[application]
+name = "nom-nom"
+default_platform = "web"
+
+[web.app]
+title = "nom-nom"
+
+[web.watcher]
+reload_html = true
+watch_path = ["src", "assets"]
+
+[web.resource]
+dev_dir = "assets"
+style = ["assets/css/output.css"]
+
+[[web.proxy]]
+backend = "http://localhost:8080"

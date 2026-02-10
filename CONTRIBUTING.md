@@ -28,6 +28,31 @@ By submitting a pull request or patch, you agree to the terms of the CLA. This g
 - Ensure `cargo clippy` passes without warnings
 - Write tests for new functionality
 
+## Dependencies
+
+**This app deploys to scratch containers.** Before adding or updating dependencies:
+
+```bash
+# Verify no OpenSSL dependency
+cargo tree -i openssl
+cargo tree -i openssl-sys
+```
+
+- Use `rustls` variants (e.g., `reqwest = { features = ["rustls-tls"], default-features = false }`)
+- Avoid crates with C dependencies
+- If unsure, ask before adding
+
+## Security
+
+**Read [docs/SECURITY.md](docs/SECURITY.md) before contributing.**
+
+Your PR will be reviewed for:
+- No hardcoded secrets or credentials
+- Proper input validation
+- Parameterized database queries
+- No sensitive data in client-side storage
+- Appropriate error handling (no sensitive data in error messages)
+
 ## Questions?
 
 Open an issue if you have questions or want to discuss a feature before implementing it.

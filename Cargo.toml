@@ -4,3 +4,14 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+dioxus = { version = "0.6", features = ["fullstack", "router"] }
+serde = { version = "1.0", features = ["derive"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+web-sys = { version = "0.3", features = ["Window", "Storage", "Document", "Element"] }
+
+[features]
+default = ["web"]
+web = []
+desktop = ["dioxus/desktop"]
+mobile = ["dioxus/mobile"]

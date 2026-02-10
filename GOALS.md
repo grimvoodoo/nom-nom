@@ -3,6 +3,8 @@
 ## Vision
 nom-nom is a web-based cookbook platform that helps users manage recipes based on ingredients they actually have. By maintaining a personal "larder" (ingredient inventory), users can discover what they can cook right now without a trip to the store.
 
+**Security is a first-class concern** — all features are designed with security by default. See [docs/SECURITY.md](docs/SECURITY.md) for the full security policy.
+
 ## Core Features
 
 ### Recipe Management
@@ -31,13 +33,13 @@ nom-nom is a web-based cookbook platform that helps users manage recipes based o
 
 ## Architecture
 
-### Planned Services
-| Service | Technology | Purpose |
-|---------|------------|---------|
-| Web Backend | Rust | Core API, recipe/larder management |
-| Frontend | TBD | User interface |
+### Technology Stack
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| App | Dioxus (Rust) | Fullstack UI - web, desktop, mobile |
+| Styling | Tailwind CSS + DaisyUI | Theming (dark/light mode) |
+| Database | CockroachDB | Distributed SQL, encrypted at rest, TLS in transit |
 | AI Service | TBD | Image processing, ingredient extraction |
-| Database | TBD | Data persistence |
 
 ## Milestones
 
@@ -56,7 +58,8 @@ nom-nom is a web-based cookbook platform that helps users manage recipes based o
 - [ ] AI service for ingredient recognition
 - [ ] Integration with larder updates
 
-### Phase 4: Polish
-- [ ] Frontend development
-- [ ] Mobile responsiveness
+### Phase 4: Multi-Platform
+- [ ] Desktop app builds
+- [ ] iOS app
+- [ ] Android app
 - [ ] Performance optimization

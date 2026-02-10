@@ -12,13 +12,21 @@ nom-nom is a web-based recipe platform that connects your recipes to your actual
 - **Larder Tracking** — Maintain an inventory of ingredients you have on hand
 - **Smart Filtering** — Find recipes you can make right now with what's in your larder
 - **AI-Powered Inventory** — Upload photos of your pantry, fridge, or shopping receipts to automatically update your ingredient list
+- **Security by Default** — Encrypted data, secure authentication, no sensitive data in client storage
 
 ## Architecture
 
-nom-nom is built as a collection of microservices:
+nom-nom uses [Dioxus](https://dioxuslabs.com/) for a unified Rust codebase that targets:
 
-- **Core API** (Rust) — Handles recipes, user data, and larder management
+- **Web** (WASM) — Primary platform
+- **Desktop** — Native apps via WebView
+- **Mobile** — iOS and Android (planned)
+
+Additional services:
+
 - **AI Service** — Processes images to extract ingredient information
+
+**Deployment:** Kubernetes-native with environment variable configuration. See [docs/CONFIGURATION.md](docs/CONFIGURATION.md).
 
 ## Project Status
 
@@ -28,21 +36,44 @@ See [GOALS.md](GOALS.md) for the roadmap and planned features.
 
 ## Development
 
+### Prerequisites
+
+- Rust (2024 edition)
+- [Dioxus CLI](https://dioxuslabs.com/learn/0.6/getting_started): `cargo install dioxus-cli`
+- Node.js (for Tailwind CSS)
+
+### Getting Started
+
 ```bash
-# Build
-cargo build
+# Install CSS dependencies
+npm install
 
-# Run
+# Build CSS
+npm run build:css
+
+# Run development server (with hot reload)
+dx serve
+
+# Or run without Dioxus CLI
 cargo run
+```
 
-# Test
-cargo test
+### Build for Production
 
-# Lint
-cargo clippy
+```bash
+# Web (WASM)
+dx build --release
 
-# Format
-cargo fmt
+# Desktop
+dx build --release --platform desktop
+```
+
+### Testing & Quality
+
+```bash
+cargo test           # Run tests
+cargo clippy         # Lint
+cargo fmt            # Format
 ```
 
 ## License

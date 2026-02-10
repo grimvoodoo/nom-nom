@@ -8,21 +8,70 @@ nom-nom is a web-based cookbook platform built with Rust (2024 edition). Users c
 
 See [GOALS.md](GOALS.md) for the roadmap and [README.md](README.md) for an overview.
 
+## Security Requirements
+
+**All code changes must follow the security policy in [docs/SECURITY.md](docs/SECURITY.md).**
+
+Key rules:
+- **No hardcoded secrets** — use environment variables
+- **No sensitive data in localStorage** — only UI preferences (e.g., theme)
+- **Parameterized queries only** — never concatenate user input into SQL
+- **TLS required** — all database and API connections must be encrypted
+- **Validate all input** — server-side validation is mandatory
+- **rustls only** — no OpenSSL (see below)
+
+## TLS & Dependencies
+
+**This app uses rustls for TLS and deploys to scratch containers.**
+
+Critical rules:
+- **Use rustls** — Never use OpenSSL or native-tls
+- **No C dependencies** — Scratch containers have no system libraries
+- **Check transitive deps** — Run `cargo tree -i openssl` to verify no OpenSSL
+- **Use `*-rustls` features** — When adding crates, prefer rustls variants (e.g., `reqwest/rustls-tls`)
+
+The app terminates TLS directly without a sidecar proxy.
+
+## Configuration
+
+**All configuration is via environment variables** — see [docs/CONFIGURATION.md](docs/CONFIGURATION.md).
+
+This app is deployed via Kubernetes. Never hardcode configuration values:
+- Read config from `std::env::var()` at startup
+- Provide sensible defaults for optional settings
+- Fail fast with clear errors for missing required settings
+- Update `.env.example` when adding new config options
+
 ## Build Commands
 
 ```bash
-# Build the project
-cargo build
+# Run development server (with hot reload)
+dx serve
 
-# Build with optimizations
-cargo build --release
+# Build for web (WASM)
+dx build --release
 
-# Run the project
+# Build for desktop
+dx build --release --platform desktop
+
+# Run without Dioxus CLI
 cargo run
-
-# Run with release optimizations
-cargo run --release
 ```
+
+## Frontend (Tailwind CSS + DaisyUI)
+
+```bash
+# Install dependencies
+npm install
+
+# Build CSS once
+npm run build:css
+
+# Watch CSS during development
+npm run watch:css
+```
+
+See [docs/STYLING.md](docs/STYLING.md) for theming and component patterns.
 
 ## Testing
 
